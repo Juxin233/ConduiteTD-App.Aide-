@@ -1,13 +1,11 @@
 package Database_Manip;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.junit.jupiter.api.Test;
 
 class Database_Control_CreateTableandReadTable {
 
