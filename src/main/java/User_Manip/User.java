@@ -7,15 +7,24 @@ public class User {
     private int identifiant;
     public static int Nb_User=0;
 
-    public User(String nom , String prenom, int age){
+    public User(String nom , String prenom, int age,User_Control user_control){
         this.nom=nom;
         this.prenom=prenom;
         this.age=age;
         this.identifiant=Nb_User+1;
         Nb_User ++;
-        
+        user_control.Insertion(this);
     }
 
+    
+    public User(int id,String nom , String prenom, int age,User_Control user_control){
+        this.nom=nom;
+        this.prenom=prenom;
+        this.age=age;
+        this.identifiant=id;
+    }
+    
+    
     public String getNom() {
         return nom;
     }
@@ -51,7 +60,7 @@ public class User {
     public int getIdentifiant() {
         return identifiant;
     }
-
+    
     public void Send_Request(){
     	
     }
@@ -59,4 +68,10 @@ public class User {
     public void Send_Feedback(){
     	
     }
+    
+    public String toString() {
+    	return "ID: " + identifiant + ", nom: " + nom +", prenom: "+prenom+ ", Age: " + age;
+    }
+    
+    
 }

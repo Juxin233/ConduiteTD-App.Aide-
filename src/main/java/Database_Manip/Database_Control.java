@@ -103,4 +103,8 @@ public class Database_Control {
             System.out.println("Insertion non reussie: " + e.getMessage());
         }
     }
+
+	public Connection getConnection() {
+		return connection;
+	}
 }
