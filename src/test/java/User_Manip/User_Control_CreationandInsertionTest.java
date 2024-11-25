@@ -49,13 +49,14 @@ class User_Control_CreationandInsertionTest {
 			assertFalse(result==null,"Le resultat ne doit pas etre vide");
 			UC.printAllUsers();
 			assertTrue(53==UC.consultUserById(1).get().getAge(),"u1 Update non reussi");
-			assertTrue("BBB"==UC.consultUserById(2).get().getNom(),"u2 Update non reussi");
-			assertTrue("ccc"==UC.consultUserById(3).get().getPrenom(),"u3 Update non reussi");
+			assertTrue(UC.consultUserById(2).get().getNom().equals("BBB"),"u2 Update non reussi");
+			assertTrue(UC.consultUserById(3).get().getPrenom().equals("ccc"),"u3 Update non reussi");
 			System.out.println("---------Database delete table trial-------");
 			db.deleteTable("DROP TABLE User");
 			db.disconnect();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
+			
 		}
 	}
 

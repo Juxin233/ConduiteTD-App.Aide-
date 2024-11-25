@@ -1,1 +1,6 @@
+/home/juchen/4A/ConduiteTD/ApplicationAide/src/test/java/Benevole_Manip/Benevole_Control_Test.java
 /home/juchen/4A/ConduiteTD/ApplicationAide/src/test/java/Database_Manip/Database_ControlTestConnexion.java
+/home/juchen/4A/ConduiteTD/ApplicationAide/src/test/java/Database_Manip/Database_Control_CreateTableandReadTable.java
+/home/juchen/4A/ConduiteTD/ApplicationAide/src/test/java/User_Manip/User_Control_CreationandInsertionTest.java
+/home/juchen/4A/ConduiteTD/ApplicationAide/src/test/java/Valideur_Manip/Valideur_Control_Test.java
+/home/juchen/4A/ConduiteTD/ApplicationAide/src/test/java/request/RequestManagerTest.java

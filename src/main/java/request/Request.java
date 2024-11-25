@@ -1,6 +1,7 @@
 package request;
 
 public class Request {
+	private int id;
 	private String titre;
 	private String etat;
 	private String motif;
@@ -17,6 +18,18 @@ public class Request {
 		this.benevole=benevole;
 	}
 	
+	public Request(int id,String titre,String etat,String motif,String feedback,String user,String benevole) {
+		this.id=id;
+		this.titre= titre;
+		this.etat=etat;
+		this.motif=motif;
+		this.feedback=feedback;
+		this.user=user;
+		this.benevole=benevole;
+	}
 	
+	public String toString() {
+    	return "ID: "+String.valueOf(id)+", Titre: " + titre + ", etat: " + etat +", motif: "+motif+ ", feedback: " + feedback+ ", User: "+ user + ", benevole: "+benevole;
+    }
 	
 }

@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import request.*;
+
 import Database_Manip.*;
 
 public class User_Control {
@@ -69,7 +71,7 @@ public class User_Control {
                 String nom = resultSet.getString("nom");
                 String prenom = resultSet.getString("prenom");
                 int age = resultSet.getInt("age");
-                users.add(new User(id,nom, prenom, age, this)); 
+                users.add(new User(id,nom, prenom, age)); 
             }
         } catch (SQLException e) {
             System.out.println("Pas d'element: " + e.getMessage());
@@ -94,7 +96,7 @@ public class User_Control {
 	        stmt.setInt(1, userId);
 	        ResultSet rs = stmt.executeQuery();
 	        if (rs.next()) {
-	            return Optional.of(new User(rs.getInt("id"),rs.getString("nom"), rs.getString("prenom"), rs.getInt("age"), this));
+	            return Optional.of(new User(rs.getInt("id"),rs.getString("nom"), rs.getString("prenom"), rs.getInt("age")));
 	        }
 	    } catch (SQLException e) {
 	        System.out.println("Element non trouve: " + e.getMessage());
@@ -130,6 +132,54 @@ public class User_Control {
 	  public void printUser(User user) {
 		  System.out.println(user.toString());
 	  }
+	  
+	  public void sendRequest(String titre,String nom_user/*,String motif*/) {
+		  String insertSQL = "INSERT INTO Request (titre, user,etat) VALUES (?,?,?)";
+			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(insertSQL)) {
+		            stmt.setString(1, titre);
+		            stmt.setString(2, nom_user);
+		            stmt.setString(3, RequestType.WAITING);   
+		            stmt.executeUpdate();
+		            System.out.println("Request insertion reussi!");
+		        } catch (SQLException e) {
+		            System.out.println("Erreur Request insertion: " + e.getMessage());
+		        }
+	  }
+	  
+	  
+	  public void sendFeedback(int id, String feedback) {
+			String updateSQL = "UPDATE Request SET feedback = ? WHERE id = ?";
+			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
+		            stmt.setString(1, feedback);
+		            stmt.setInt(2, id);
+		            int rowsAffected = stmt.executeUpdate();
+		            if (rowsAffected > 0) {
+		                System.out.println("Request mtj reussi!");
+		            } else {
+		                System.out.println("Element non trouve.");
+		            }
+		        } catch (SQLException e) {
+		            System.out.println("Update non reussi: " + e.getMessage());
+		        }
+		}
+	  
+	  
+	  public void sendMotif(int id, String motif) {
+		  String updateSQL = "UPDATE Request SET motif = ? WHERE id = ?";
+			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
+		            stmt.setString(1, motif);
+		            stmt.setInt(2, id);
+		            int rowsAffected = stmt.executeUpdate();
+		            if (rowsAffected > 0) {
+		                System.out.println("Request mtj reussi!");
+		            } else {
+		                System.out.println("Element non trouve.");
+		            }
+		        } catch (SQLException e) {
+		            System.out.println("Update non reussi: " + e.getMessage());
+		        }
+	  }
+
 }
 
 

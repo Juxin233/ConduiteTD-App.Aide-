@@ -83,12 +83,18 @@ this.prenom = prenom;
 }
 
  
- 
+public void consultRequest(Benevole_Control BC) {
+	
+}
 
-public void Accept_Request(){
+public void Accept_Request(int requestID,Benevole_Control BC){
 
  //accept a request 
+	BC.acceptRequest(requestID, getNom() + getPrenom());
+}
 
+public void finishRequest(int id,Benevole_Control BC) {
+	BC.finishRequest(id);
 }
 
 public void AddSpontaneousRequest () {

@@ -1,12 +1,14 @@
 package User_Manip;
 
+import request.*;
+
 public class User {
 	private String nom;
     private String prenom;
     private int age;
     private int identifiant;
     public static int Nb_User=0;
-
+    
     public User(String nom , String prenom, int age,User_Control user_control){
         this.nom=nom;
         this.prenom=prenom;
@@ -17,7 +19,7 @@ public class User {
     }
 
     
-    public User(int id,String nom , String prenom, int age,User_Control user_control){
+    public User(int id,String nom , String prenom, int age){
         this.nom=nom;
         this.prenom=prenom;
         this.age=age;
@@ -61,17 +63,20 @@ public class User {
         return identifiant;
     }
     
-    public void Send_Request(){
-    	
-    }
-
-    public void Send_Feedback(){
-    	
-    }
     
     public String toString() {
     	return "ID: " + identifiant + ", nom: " + nom +", prenom: "+prenom+ ", Age: " + age;
     }
     
+    public void sendRequest(String titre,User_Control UC) {
+    	UC.sendRequest(titre, getNom() + getPrenom() );
+    }
     
+    public void sendFeedback(int requestID,String feedback,User_Control UC) {
+    	UC.sendFeedback(requestID, feedback);
+    }
+    
+    public void sendMotif(int requestID,String motif,User_Control UC) {
+    	UC.sendMotif(requestID, motif);
+    }
 }
