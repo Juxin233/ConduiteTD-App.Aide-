@@ -1,5 +1,7 @@
 package Valideur_Manip ;
 
+import request.Request;
+
 public class Valideur {
 
 	private String nom;
@@ -78,5 +80,8 @@ public class Valideur {
 	
 	}
 	
-
 }
+	
+
+
+

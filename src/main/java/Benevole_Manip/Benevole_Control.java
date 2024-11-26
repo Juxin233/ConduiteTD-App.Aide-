@@ -30,10 +30,11 @@ public class Benevole_Control {
 		String query= "INSERT INTO Benevole (nom, prenom, age) VALUES "+"("+"'"+ben.getNom() +"'" +" , " +"'"+ben.getPrenom()+"'"+" ,"+ String.valueOf(ben.getAge())+")";
 		DB.insertData(query);
 	}
+		
+ public void printBen(Benevole ben) {
+	  System.out.println("Nom: " +ben.getNom()+"  Prenom: "+ ben.getPrenom() + "  Age: "+ String.valueOf(ben.getAge()));
+ }
 
-	public void printBen(Benevole ben) {
-		System.out.println(ben.getNom()+"  "+ ben.getPrenom() + "  "+ String.valueOf(ben.getAge()));
-	}
  
 	public void acceptRequest(int id, String nom_benevole) {
 		String updateSQL = "UPDATE Request SET benevole = ? etat= ? WHERE id = ?";

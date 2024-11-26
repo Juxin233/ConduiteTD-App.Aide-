@@ -27,9 +27,9 @@ public class Request {
 		this.user=user;
 		this.benevole=benevole;
 	}
-	
+
 	public String toString() {
     	return "ID: "+String.valueOf(id)+", Titre: " + titre + ", etat: " + etat +", motif: "+motif+ ", feedback: " + feedback+ ", User: "+ user + ", benevole: "+benevole;
     }
-	
+
 }

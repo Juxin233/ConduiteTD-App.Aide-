@@ -82,10 +82,18 @@ this.prenom = prenom;
 
 }
 
+
  
 public void consultRequest(Benevole_Control BC) {
 	
 }
+
+public void setNom(String nom) {
+
+this.nom = nom;
+
+}
+ 
 
 public void Accept_Request(int requestID,Benevole_Control BC){
 
