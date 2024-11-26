@@ -124,7 +124,7 @@ public class Main {
 	    			
 	    			//ajout d'une requête 
 	    			System.out.println("Choisissez le titre de votre requête: ");
-	    			String titre = sc.next(); 
+	    			//String titre = sc.next(); 
 	    			// Request r = new Request(titre,"WAITING","","",,""); 
 	    			break; 
 	    			
