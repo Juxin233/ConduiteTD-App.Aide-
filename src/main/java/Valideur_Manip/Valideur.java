@@ -1,5 +1,7 @@
 package Valideur_Manip ;
 
+import request.Request;
+
 public class Valideur {
 
 private String nom;
@@ -69,14 +71,15 @@ this.prenom = prenom;
 
 }
 
+public void ValidRequest (Request r, boolean v) {
+	if (v){
+		
+	}
  
- 
+}
 
-public void Valid_Request(){
-
- //change the state of the request from pending to validated  
-
+	
+	
 }
 
 
-}

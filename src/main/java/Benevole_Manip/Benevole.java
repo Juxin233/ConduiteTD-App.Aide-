@@ -82,7 +82,11 @@ this.prenom = prenom;
 
 }
 
- 
+public void setNom(String nom) {
+
+this.nom = nom;
+
+}
  
 
 public void Accept_Request(){

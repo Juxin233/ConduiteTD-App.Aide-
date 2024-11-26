@@ -34,7 +34,7 @@ public class Benevole_Control {
  }
 
  public void printBen(Benevole ben) {
-	  System.out.println(ben.getNom()+"  "+ ben.getPrenom() + "  "+ String.valueOf(ben.getAge()));
+	  System.out.println("Nom: " +ben.getNom()+"  Prenom: "+ ben.getPrenom() + "  Age: "+ String.valueOf(ben.getAge()));
  }
  
  

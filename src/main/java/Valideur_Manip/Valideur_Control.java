@@ -1,11 +1,12 @@
 package Valideur_Manip; 
 import Database_Manip.Database_Control;
+import request.RequestManager ; 
 
 
 public class Valideur_Control {
 
  private Database_Control DB;
-
+ private RequestManager RM ; 
  
 
  public Valideur_Control(Database_Control db){
@@ -27,18 +28,16 @@ public class Valideur_Control {
  public void Insertion(Valideur val) {
 
  String query= "INSERT INTO Valideur (nom, prenom) VALUES "+"(" + "'" +val.getNom()+ "'"+ " , " +"'"+val.getPrenom()+"'" +" )";
- System.out.println(query);
  DB.insertData(query);
 
  }
  
  public void printVal(Valideur val) {
-	  System.out.println(val.getNom() + " " + val.getPrenom());
+	  System.out.println("Nom: "+ val.getNom() + "  Prenom: " + val.getPrenom());
 }
 
- 
- 
+public void Valid_Request (int RequestID, int valide ) {
+	
 
- 
-
+}
 }
