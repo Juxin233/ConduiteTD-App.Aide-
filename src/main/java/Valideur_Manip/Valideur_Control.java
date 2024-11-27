@@ -1,6 +1,10 @@
 package Valideur_Manip; 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import Database_Manip.Database_Control;
-import request.RequestManager ; 
+import request.RequestManager ;
+import request.RequestType; 
 
 
 public class Valideur_Control {
@@ -36,8 +40,37 @@ public class Valideur_Control {
 	  System.out.println("Nom: "+ val.getNom() + "  Prenom: " + val.getPrenom());
 }
 
-public void Valid_Request (int RequestID, int valide ) {
+public void validRequest(int id) {
+	String updateSQL = "UPDATE Request SET etat = ? WHERE id = ?";
+	 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
+           stmt.setString(1, RequestType.VALID);
+           stmt.setInt(2, id);  
+           int rowsAffected = stmt.executeUpdate();
+           if (rowsAffected > 0) {
+               System.out.println("Request mtj reussi!");
+           } else {
+               System.out.println("Element non trouve.");
+           }
+       } catch (SQLException e) {
+           System.out.println("Update non reussi: " + e.getMessage());
+       }
 	
+}
 
+public void invalidRequest(int id) {
+	String updateSQL = "UPDATE Request SET etat = ? WHERE id = ?";
+	 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
+          stmt.setString(1, RequestType.INVALID);
+          stmt.setInt(2, id);  
+          int rowsAffected = stmt.executeUpdate();
+          if (rowsAffected > 0) {
+              System.out.println("Request mtj reussi!");
+          } else {
+              System.out.println("Element non trouve.");
+          }
+      } catch (SQLException e) {
+          System.out.println("Update non reussi: " + e.getMessage());
+      }
+	
 }
 }

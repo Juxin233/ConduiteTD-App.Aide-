@@ -74,10 +74,15 @@ public class Valideur {
 	 
 	 
 	
-	public void Valid_Request(){
-	
+	public void Valid_Request(int id, Valideur_Control V){
 	 //change the state of the request from pending to validated  
+		V.validRequest(id); 
+	}
 	
+	public void Refuse_Request(int id, Valideur_Control V){
+		 //change the state of the request from pending to Invalid
+		V.invalidRequest(id); 
+		
 	}
 	
 }

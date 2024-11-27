@@ -1,10 +1,10 @@
 import java.sql.SQLException;
 import java.util.Scanner;
-
 import Benevole_Manip.* ;
 import Database_Manip.Database_Control;
 import User_Manip.* ; 
 import Valideur_Manip.* ; 
+import request.*; 
 
 
 public class Main {
@@ -29,6 +29,12 @@ public class Main {
 		Benevole_Control BEN = new Benevole_Control(db) ;
 		User_Control US =new User_Control(db); 
 		Valideur_Control VAL = new Valideur_Control(db); 
+		RequestManager Requests = new RequestManager(db); 
+		
+		//initialisation des utilisateurs 
+		Benevole ben = null; 
+		User u=null; 
+		Valideur v=null; 
 		
 		//initalisation des infos
 		String Nom=""; 
@@ -57,7 +63,7 @@ public class Main {
         	Prenom= sc.next(); 
         	System.out.println("Entrez Age ") ; 
         	Age = sc.nextInt(); 
-        	Benevole ben = new Benevole(Nom,Prenom,Age,BEN); 
+        	ben = new Benevole(Nom,Prenom,Age,BEN); 
         	
     		BEN.printBen(ben); 	
     		comptecree = true ; 
@@ -71,7 +77,7 @@ public class Main {
         	Prenom = sc.next(); 
         	System.out.println("Entrez Age ") ; 
         	Age = sc.nextInt(); 
-    		User u = new User(Nom,Prenom,Age,US); 
+        	u = new User(Nom,Prenom,Age,US); 
    
     		US.printUser(u); 	
     		comptecree = true ; 
@@ -83,8 +89,8 @@ public class Main {
         	Nom = sc.next(); 
         	System.out.println("Entrez Prénom ") ; 
         	Prenom = sc.next(); 
-    		Valideur v = new Valideur(Nom,Prenom,VAL); 
-   
+        	v = new Valideur(Nom,Prenom,VAL); 
+
     		VAL.printVal(v); 	
     		comptecree = true ; 
     		type = "val"; 
@@ -101,49 +107,91 @@ public class Main {
 	
     	//manipulation des requetes 
     	
+    	//Création de la table des requetes 
+    	Requests.createRequestsTable();
+    	//Insertion de 2 requêtes initiales pour démontrer le fonctionnement de l'appli 
+    	Requests.Insertion("Récuperer colis", "Alice");
+    	Requests.Insertion("Faire des courses","Bob");
+    	Requests.printAllRequests();//TODO : afficher seulement les requêtes dont les utilisateurs ont besoin ? 
+    	
+ 
     	boolean running = true ; 
     	while (running) {
     		String in = sc.nextLine(); 
-    	
-    		
     		//pour quitter le programme 
     		if (in.equals("exit")){
     			running = false ; 
-    		}
-    		
+    		}	
     		switch (type) {
-	    		case "ben" : 
-	    			
-	    			System.out.println("Requetes disponibles : "); 
+	    		case "ben" : //Actions bénévole
+	    			System.out.println("Choisissez CHOISIR ou TERMINER ");
+	    			String choix1 = sc.next(); 
+	    			if (choix1.equals("CHOISIR")) {
+		    			System.out.println("Choisissez la requete que vous souhaitez effectuer (ID) ");
+		    			int id = sc.nextInt(); 
+		    			ben.Accept_Request(id, BEN); //PB 
+	    			}
+	    			else if (choix1.equals("TERMINER")) {
+	    				System.out.println("Choisissez la requete que vous souhaitez terminer (ID) ");
+		    			int id = sc.nextInt(); 
+		    			ben.finishRequest(id, BEN);
+	    			}
+					else if (choix1.equals("exit")) {
+						 running=false;    				
+						    			}
+	    			else {
+	    				System.out.println("Erreur. Recommencez"); 
+	    			}
 	    			break; 
-	    			//choisir une requete 
-	    			//finir une requete 
 	    			
-	    		case "user" : 
-	    			System.out.println("Ajoutez votre requête : ");
-	    			
-	    			//ajout d'une requête 
-	    			System.out.println("Choisissez le titre de votre requête: ");
-	    			//String titre = sc.next(); 
-	    			// Request r = new Request(titre,"WAITING","","",,""); 
+	    		case "user" : //Actions Utilisateur
+	    			System.out.println("Choisissez REQUETE ou FEEDBACK ");
+	    			String choix = sc.next(); 
+	    			if (choix.equals("REQUETE")) {
+		    			System.out.println("Choisissez le titre de votre requête: ");
+		    			String titre = sc.next(); 
+		    			Requests.Insertion(titre, Nom); 
+	    			}
+	    			else if (choix.equals("FEEDBACK")) {
+	    				//TODO 
+	    			}
+					else if (choix.equals("exit")) {
+						 running=false;    				
+						    			}
+	    			else {
+	    				System.out.println("Erreur. Recommencez"); 
+	    			}
 	    			break; 
 	    			
 	    			
-	    		case "val" : 
+	    		case "val" : //Actions Validateur 
 	    			System.out.println("Choisir la requête à valider"); 
+	    			int id = sc.nextInt(); 
+	    			System.out.println("Voulez vous valider la requête ? (oui/non)"); 
+	    			String choix3 = sc.next(); 
+	    			if (choix3.equals("oui")) {
+		    			v.Valid_Request(id, VAL); 
+	    			}
+	    			else if (choix3.equals("non")) {
+	    				v.Refuse_Request(id, VAL); 
+	    				//TODO : Ajouter motif 
+	    			}
+	    			else {
+	    				System.out.println("Erreur. Recommencez"); 
+	    			}
 	    			break; 
-	    			//valider la requete 
 	    			
 	    		default: 
 	    				break; 
     		}
     	}
 		
-    	
+    	Requests.printAllRequests();
     	
 		db.deleteTable("DROP TABLE Benevole");
 		db.deleteTable("DROP TABLE User" );
 		db.deleteTable("DROP TABLE Valideur");
+		db.deleteTable("DROP TABLE Request"); 
 		db.disconnect();
     	
     

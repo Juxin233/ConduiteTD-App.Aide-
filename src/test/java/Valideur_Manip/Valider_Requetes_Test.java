@@ -7,8 +7,9 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 import Valideur_Manip.Valideur_Control; 
+import request.*; 
 
-class Valideur_Control_Test {
+class Valider_Requetes_Test {
 	
 	@Test 
 	void test() throws SQLException {
@@ -20,8 +21,7 @@ class Valideur_Control_Test {
 	    String database="projet_gei_024";
 	    String username="projet_gei_024";
 	    String password="Zai6Xoo7";
-	    
-	    System.out.println("Test Valideur"); 
+	     
 	    //connection 
 	    Database_Control db =new Database_Control(host, port, database, username, password);
 		db.connect();
@@ -30,9 +30,20 @@ class Valideur_Control_Test {
 		//creation d'un benevole 
 		Valideur b1 = new Valideur("VAL1","val1",VAL); 
 		
-		 VAL.printVal(b1); 	
+		//Creation d'une table de requetes
+		RequestManager R = new RequestManager (db); 
+    	R.createRequestsTable();
+    	//Insertion de 2 requêtes initiales 
+    	R.Insertion("Récuperer colis", "Alice");
+    	R.Insertion("Faire des courses","Bob"); 
 		
+    	b1.Valid_Request(1, VAL); //Valider requete 1
+    	b1.Refuse_Request(2,VAL); //Refuser requete 2
+    	
+    	R.printAllRequests();
+    	
 		db.deleteTable("DROP TABLE Valideur");
+		db.deleteTable("DROP TABLE Request");
 		db.disconnect();
 		}
 		
