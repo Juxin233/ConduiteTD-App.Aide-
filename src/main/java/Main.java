@@ -150,10 +150,14 @@ public class Main {
 	    			if (choix.equals("REQUETE")) {
 		    			System.out.println("Choisissez le titre de votre requête: ");
 		    			String titre = sc.next(); 
-		    			Requests.Insertion(titre, Nom); 
+		    			u.sendRequest(titre, US);
 	    			}
 	    			else if (choix.equals("FEEDBACK")) {
-	    				//TODO 
+	    				System.out.println("Choisissez la requête que vous voulez évaluez (ID) ");
+		    			int id = sc.nextInt(); 
+		    			System.out.println("Entrez votre feedback: ");
+		    			String fb = sc.next(); 
+		    			u.sendFeedback(id, fb, US);
 	    			}
 					else if (choix.equals("exit")) {
 						 running=false;    				
