@@ -4,7 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-import request.*;
+import request.Request;
+import request.RequestType;
 
 import Database_Manip.*;
 
@@ -91,7 +92,7 @@ public class User_Control {
 	}*/
 
 	public Optional<User> consultUserById(int userId) {
-	    String query = "SELECT * FROM User WHERE ID = ?";
+	    String query = "SELECT * FROM User WHERE id = ?";
 	    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
 	        stmt.setInt(1, userId);
 	        ResultSet rs = stmt.executeQuery();
@@ -147,8 +148,21 @@ public class User_Control {
 	  }
 	  
 	  
-	  public void sendFeedback(int id, String feedback) {
-			String updateSQL = "UPDATE Request SET feedback = ? WHERE id = ?";
+	  public void sendFeedback(int id, String feedback,String nom_user) {
+		  String query = "SELECT * FROM Request WHERE id = ?";
+		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
+		        stmt.setInt(1, id);
+		        ResultSet rs = stmt.executeQuery();
+		        if (rs.next()) {
+		            if(!nom_user.equals(rs.getString("user"))) {
+		            	throw new SQLException("You are not the sender of this request !!");
+		            };
+		        }
+		    } catch (SQLException e) {
+		        System.out.println(e.getMessage());
+		        return;
+		    }
+		    String updateSQL = "UPDATE Request SET feedback = ? WHERE id = ?";
 			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
 		            stmt.setString(1, feedback);
 		            stmt.setInt(2, id);
@@ -164,8 +178,23 @@ public class User_Control {
 		}
 	  
 	  
-	  public void sendMotif(int id, String motif) {
-		  String updateSQL = "UPDATE Request SET motif = ? WHERE id = ?";
+	  public void sendMotif(int id, String motif,String nom_user) {
+		  //Verify if user is the sender of the request
+		  String query = "SELECT * FROM Request WHERE id = ?";
+		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
+		        stmt.setInt(1, id);
+		        ResultSet rs = stmt.executeQuery();
+		        if (rs.next()) {
+		            if(!nom_user.equals(rs.getString("user"))) {
+		            	throw new SQLException("You are not the sender of this request !!");
+		            };
+		        }
+		    } catch (SQLException e) {
+		        System.out.println(e.getMessage());
+		        return;
+		    }
+		  //Update the request
+		    String updateSQL = "UPDATE Request SET motif = ? WHERE id = ?";
 			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
 		            stmt.setString(1, motif);
 		            stmt.setInt(2, id);
@@ -179,7 +208,30 @@ public class User_Control {
 		            System.out.println("Update non reussi: " + e.getMessage());
 		        }
 	  }
-
+	  
+	  public void myRequest(String nom_user) {
+		  String querySQL = "SELECT * FROM Request WHERE user = ? ";
+	        List<Request> requests = new ArrayList<>();
+	        try (PreparedStatement stmt = DB.getConnection().prepareStatement(querySQL)) {
+	            stmt.setString(1, nom_user);
+	            ResultSet resultSet = stmt.executeQuery();
+	        	while (resultSet.next()) {
+	                int id = resultSet.getInt("id");
+	                String titre = resultSet.getString("titre");
+	                String etat = resultSet.getString("etat");
+	                String motif = resultSet.getString("motif");
+	                String feedback = resultSet.getString("feedback");
+	                String user = resultSet.getString("user");
+	                String benevole = resultSet.getString("benevole");
+	                requests.add(new Request(id,titre,etat, motif, feedback, user,benevole)); 
+	            }
+	        } catch (SQLException e) {
+	            System.out.println("Not Request: " + e.getMessage());
+	        }
+	        for(Request request:requests) {
+				  System.out.println(request.toString());
+			}
+	  }
 }
 
 

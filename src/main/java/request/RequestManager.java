@@ -28,7 +28,7 @@ public class RequestManager {
                 + "etat VARCHAR(50), "
                 + "motif VARCHAR(50), "
                 + "user VARCHAR(50), "
-                + "benevole VARCHAR(50), "
+                + "benevole VARCHAR(50) DEFAULT 'Not assigned', "
                 + "feedback VARCHAR(50))";
         		DB.createTable(createTableSQL);
 	}
