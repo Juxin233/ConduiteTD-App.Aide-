@@ -38,7 +38,10 @@ public class User {
     public int getAge() {
         return age;
     }
-
+    
+    public String getFullName() {
+    	return getNom()+" "+getPrenom();
+    }
     public void setAge(int age) {
         this.age = age;
     }
@@ -68,15 +71,18 @@ public class User {
     	return "ID: " + identifiant + ", nom: " + nom +", prenom: "+prenom+ ", Age: " + age;
     }
     
+    public void myRequest(User_Control UC) {
+    	UC.myRequest(getFullName());
+    }
     public void sendRequest(String titre,User_Control UC) {
-    	UC.sendRequest(titre, getNom() + getPrenom() );
+    	UC.sendRequest(titre, getFullName() );
     }
     
     public void sendFeedback(int requestID,String feedback,User_Control UC) {
-    	UC.sendFeedback(requestID, feedback);
+    	UC.sendFeedback(requestID, feedback,getFullName());
     }
     
     public void sendMotif(int requestID,String motif,User_Control UC) {
-    	UC.sendMotif(requestID, motif);
+    	UC.sendMotif(requestID, motif,getFullName());
     }
 }
