@@ -1,5 +1,6 @@
 package Valideur_Manip; 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Database_Manip.Database_Control;
@@ -71,6 +72,22 @@ public void invalidRequest(int id) {
       } catch (SQLException e) {
           System.out.println("Update non reussi: " + e.getMessage());
       }
-	
 }
+	 
+ public void Motif(int id, String motif,String nom_user) {
+	 String updateSQL = "UPDATE Request SET motif = ? WHERE id = ?";
+	 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
+          stmt.setString(1, motif);
+          stmt.setInt(2, id);  
+          int rowsAffected = stmt.executeUpdate();
+          if (rowsAffected > 0) {
+              System.out.println("Request mtj reussi!");
+          } else {
+              System.out.println("Element non trouve.");
+          }
+      } catch (SQLException e) {
+          System.out.println("Update non reussi: " + e.getMessage());
+      }  
+	
+ }
 }

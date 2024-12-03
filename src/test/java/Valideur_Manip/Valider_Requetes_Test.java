@@ -38,7 +38,7 @@ class Valider_Requetes_Test {
     	R.Insertion("Faire des courses","Bob"); 
 		
     	b1.Valid_Request(1, VAL); //Valider requete 1
-    	b1.Refuse_Request(2,VAL); //Refuser requete 2
+    	b1.Refuse_Request(2,"non valide",VAL); //Refuser requete 2
     	
     	R.printAllRequests();
     	

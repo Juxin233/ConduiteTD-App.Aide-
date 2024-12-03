@@ -1,5 +1,6 @@
 package Valideur_Manip ;
 
+import User_Manip.User_Control;
 import request.Request;
 
 public class Valideur {
@@ -79,11 +80,13 @@ public class Valideur {
 		V.validRequest(id); 
 	}
 	
-	public void Refuse_Request(int id, Valideur_Control V){
+	public void Refuse_Request(int id,String motif, Valideur_Control V){
 		 //change the state of the request from pending to Invalid
+		V.Motif(id, motif,getPrenom()+getNom());
 		V.invalidRequest(id); 
-		
 	}
+	
+	
 	
 }
 	

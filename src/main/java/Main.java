@@ -9,8 +9,6 @@ import request.*;
 
 public class Main {
 
-	// note : rendre les user en global. 
-
     public static void main(String[] args) throws SQLException {
     	
     	String type = ""; //stocke le type de compte créé 
@@ -117,11 +115,7 @@ public class Main {
  
     	boolean running = true ; 
     	while (running) {
-    		String in = sc.nextLine(); 
-    		//pour quitter le programme 
-    		if (in.equals("exit")){
-    			running = false ; 
-    		}	
+    		//pour quitter le programme taper exit 
     		switch (type) {
 	    		case "ben" : //Actions bénévole
 	    			System.out.println("Choisissez CHOISIR ou TERMINER ");
@@ -129,7 +123,7 @@ public class Main {
 	    			if (choix1.equals("CHOISIR")) {
 		    			System.out.println("Choisissez la requete que vous souhaitez effectuer (ID) ");
 		    			int id = sc.nextInt(); 
-		    			ben.Accept_Request(id, BEN); //PB 
+		    			ben.Accept_Request(id, BEN);
 	    			}
 	    			else if (choix1.equals("TERMINER")) {
 	    				System.out.println("Choisissez la requete que vous souhaitez terminer (ID) ");
@@ -170,18 +164,27 @@ public class Main {
 	    			
 	    		case "val" : //Actions Validateur 
 	    			System.out.println("Choisir la requête à valider"); 
-	    			int id = sc.nextInt(); 
-	    			System.out.println("Voulez vous valider la requête ? (oui/non)"); 
-	    			String choix3 = sc.next(); 
-	    			if (choix3.equals("oui")) {
-		    			v.Valid_Request(id, VAL); 
+	    			String id = sc.next();
+	    			
+	    			if (id.equals("exit")) { //quitter le programme 
+						 running=false;    				
 	    			}
-	    			else if (choix3.equals("non")) {
-	    				v.Refuse_Request(id, VAL); 
-	    				//TODO : Ajouter motif 
-	    			}
-	    			else {
-	    				System.out.println("Erreur. Recommencez"); 
+	    			
+	    			else  {
+	    				System.out.println("Voulez vous valider la requête ? (oui/non)"); 
+		    			String choix3 = sc.next(); 
+		    			if (choix3.equals("oui")) {
+			    			v.Valid_Request(Integer.parseInt(id), VAL); 
+		    			}
+		    			else if (choix3.equals("non")) {
+		    				sc.nextLine(); 
+		    				System.out.println("Entrer Motif ");  
+			    			String m = sc.nextLine(); 
+		    				v.Refuse_Request(Integer.parseInt(id),m, VAL); 
+		    			}
+		    			else {
+		    				System.out.println("Erreur. Recommencez"); 
+		    			}
 	    			}
 	    			break; 
 	    			
