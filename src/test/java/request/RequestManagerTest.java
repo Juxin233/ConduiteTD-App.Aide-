@@ -20,6 +20,8 @@ class RequestManagerTest {
 	    String password="Zai6Xoo7";
 	    List<Request> result = null;
 	    try {
+		    System.out.println("**Test Request Control**"); 
+
 	    	System.out.println("---------Database connexion trial-------");
 	    	Database_Control db =new Database_Control(host, port, database, username, password);
 	    	db.connect();
@@ -32,17 +34,19 @@ class RequestManagerTest {
 	    	System.out.println("---------Database consult all the requests trial-------");
 	    	RM.printAllRequests();
 	    	System.out.println("---------Database consult single user trial-------");
-	    	RM.printRequest(RM.consultUserById(1).get());
-	    	RM.printRequest(RM.consultUserById(2).get());
+	    	RM.printRequest(RM.consultRequestById(1).get());
+	    	RM.printRequest(RM.consultRequestById(2).get());
 	    	System.out.println("---------Database update single user trial-------");
 	    	RM.updateRequest(1, 1);
 	    	RM.updateRequest(2, 0);
-	    	RM.printRequest(RM.consultUserById(1).get());
-	    	RM.printRequest(RM.consultUserById(2).get());
+	    	RM.printRequest(RM.consultRequestById(1).get());
+	    	RM.printRequest(RM.consultRequestById(2).get());
 	    	System.out.println("---------Database consult all the requests trial-------");
 	    	System.out.println("---------Database delete table trial-------");
 			db.deleteTable("DROP TABLE Request");
 			db.disconnect();
+		    System.out.println(""); 
+
 			
 	    }catch(SQLException e) {
 	    	

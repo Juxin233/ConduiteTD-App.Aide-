@@ -77,13 +77,13 @@ public class RequestManager {
 		  System.out.println(request.toString());
 	  }
 	 
-	 public Optional<Request> consultUserById(int requestId) {
+	 public Optional<Request> consultRequestById(int requestId) {
 		    String query = "SELECT * FROM Request WHERE ID = ?";
 		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
 		        stmt.setInt(1, requestId);
 		        ResultSet rs = stmt.executeQuery();
 		        if (rs.next()) {
-		            return Optional.of(new Request(rs.getInt("id"),rs.getString("titre"), rs.getString("etat"), rs.getString("feedback"),rs.getString("user"),rs.getString("motif"),rs.getString("benevole")));
+		            return Optional.of(new Request(rs.getInt("id"),rs.getString("titre"), rs.getString("etat"),rs.getString("motif"), rs.getString("feedback"),rs.getString("user"),rs.getString("benevole")));
 		        }
 		    } catch (SQLException e) {
 		        System.out.println("Element non trouve: " + e.getMessage());

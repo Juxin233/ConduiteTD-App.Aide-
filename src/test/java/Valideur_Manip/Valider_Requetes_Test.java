@@ -21,7 +21,8 @@ class Valider_Requetes_Test {
 	    String database="projet_gei_024";
 	    String username="projet_gei_024";
 	    String password="Zai6Xoo7";
-	     
+	    System.out.println("**Test Valideur Control Requestes**"); 
+
 	    //connection 
 	    Database_Control db =new Database_Control(host, port, database, username, password);
 		db.connect();
@@ -29,6 +30,7 @@ class Valider_Requetes_Test {
 		Valideur_Control VAL = new Valideur_Control(db) ;
 		//creation d'un benevole 
 		Valideur b1 = new Valideur("VAL1","val1",VAL); 
+		Valideur b11 = new Valideur("VAL1","val1",VAL); 
 		
 		//Creation d'une table de requetes
 		RequestManager R = new RequestManager (db); 

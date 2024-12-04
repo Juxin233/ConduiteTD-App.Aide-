@@ -18,6 +18,7 @@ class Benevole_Control_RequestTest {
 	    String database="projet_gei_024";
 	    String username="projet_gei_024";
 	    String password="Zai6Xoo7";
+	    System.out.println("**Test Benevole Control Request**"); 
 	    try {
 	    	System.out.println("---------Database connexion trial-------");
 			Database_Control db =new Database_Control(host, port, database, username, password);
@@ -55,6 +56,7 @@ class Benevole_Control_RequestTest {
 			db.deleteTable("DROP TABLE Benevole");
 			db.deleteTable("DROP TABLE Request");
 			db.disconnect();
+		    System.out.println(""); 
 	    }catch(Exception e) {
 	    	e.getStackTrace();
 	    }

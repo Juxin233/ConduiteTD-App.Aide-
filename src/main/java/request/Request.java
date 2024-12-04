@@ -9,6 +9,14 @@ public class Request {
 	private String user;
 	private String benevole;
 	
+	public int getId() {return id;}
+	public String getTitre() {return titre;}
+	public String getEtat() {return etat;}
+	public String getMotif() {return motif;}
+	public String getFeedback() {return feedback;}
+	public String getUser() {return user;}
+	public String getBenevole() {return benevole;}
+	
 	public Request(String titre,String etat,String motif,String feedback,String user,String benevole) {
 		this.titre= titre;
 		this.etat=etat;

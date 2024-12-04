@@ -23,7 +23,8 @@ public class User_Control {
 	                + "id INT AUTO_INCREMENT PRIMARY KEY, "
 	                + "nom VARCHAR(50), "
 	                + "prenom VARCHAR(50), "
-	                + "age INT)";
+	                + "age INT,"
+	                + "UNIQUE (nom,prenom))";
 	        DB.createTable(createTableSQL);
 	}
 	
@@ -36,8 +37,14 @@ public class User_Control {
 	            stmt.setString(1, user.getNom());
 	            stmt.setString(2, user.getPrenom());
 	            stmt.setInt(3, user.getAge());
-	            stmt.executeUpdate();
-	            System.out.println("User insertion reussi!");
+	            int id=getId(user.getNom(),user.getPrenom());
+	            if (id==-1) {
+	            	stmt.executeUpdate();
+	            	id=getId(user.getNom(),user.getPrenom());
+	            	System.out.println("A new user! Welcome, you are the "+ id +"th user");	     
+	            }else {
+	            	System.out.println("Welcome Back user n° " + id +" "+ user.getFullName() );
+	            }
 	        } catch (SQLException e) {
 	            System.out.println("Erreur User insertion: " + e.getMessage());
 	        }
@@ -62,7 +69,25 @@ public class User_Control {
 		}
 		return result;
 	}*/
-
+	
+	public int getId(String nom,String prenom) {
+		String query = "SELECT id FROM User WHERE nom= ? AND prenom=?";
+		try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)){
+			stmt.setString(1, nom);
+			stmt.setString(2, prenom);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) { 
+	            return rs.getInt("id");
+	        } else {
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Erreur SQL : " + e.getMessage());
+	    }
+		return -1;
+	}
+	
+	
+	
 	public List<User> getAllUsers() {
         String querySQL = "SELECT id, nom, prenom, age FROM User";
         List<User> users = new ArrayList<>();
@@ -134,7 +159,7 @@ public class User_Control {
 		  System.out.println(user.toString());
 	  }
 	  
-	  public void sendRequest(String titre,String nom_user/*,String motif*/) {
+	  public void sendRequest(String titre,String nom_user) {
 		  String insertSQL = "INSERT INTO Request (titre, user,etat) VALUES (?,?,?)";
 			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(insertSQL)) {
 		            stmt.setString(1, titre);
@@ -178,7 +203,7 @@ public class User_Control {
 		}
 	  
 	  
-	  public void sendMotif(int id, String motif,String nom_user) {
+	  /*public void sendMotif(int id, String motif,String nom_user) {
 		  //Verify if user is the sender of the request
 		  String query = "SELECT * FROM Request WHERE id = ?";
 		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
@@ -207,7 +232,7 @@ public class User_Control {
 		        } catch (SQLException e) {
 		            System.out.println("Update non reussi: " + e.getMessage());
 		        }
-	  }
+	  }*/
 	  
 	  public void myRequest(String nom_user) {
 		  String querySQL = "SELECT * FROM Request WHERE user = ? ";

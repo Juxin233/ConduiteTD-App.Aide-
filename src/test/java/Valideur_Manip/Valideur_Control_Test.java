@@ -21,7 +21,7 @@ class Valideur_Control_Test {
 	    String username="projet_gei_024";
 	    String password="Zai6Xoo7";
 	    
-	    System.out.println("Test Valideur"); 
+	    System.out.println("**Test Valideur Control**"); 
 	    //connection 
 	    Database_Control db =new Database_Control(host, port, database, username, password);
 		db.connect();
@@ -30,10 +30,11 @@ class Valideur_Control_Test {
 		//creation d'un benevole 
 		Valideur b1 = new Valideur("VAL1","val1",VAL); 
 		
-		 VAL.printVal(b1); 	
+		VAL.printVal(b1); 	
 		
 		db.deleteTable("DROP TABLE Valideur");
 		db.disconnect();
+	    System.out.println(""); 
 		}
 		
 		catch(SQLException e) {

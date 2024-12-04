@@ -18,6 +18,7 @@ class User_Control_RequestTest {
 	    String username="projet_gei_024";
 	    String password="Zai6Xoo7";
 	    try {
+		    System.out.println("**Test User Control Request**"); 
 	    	System.out.println("---------Database connexion trial-------");
 			Database_Control db =new Database_Control(host, port, database, username, password);
 			db.connect();
@@ -36,17 +37,14 @@ class User_Control_RequestTest {
 			u1.sendRequest("Bouger", UC);
 			u2.sendRequest("Bouger", UC);
 			u3.sendRequest("Accompagner", UC);
+			assertTrue(RM.consultRequestById(1).get().getTitre().equals("Achat"),"Insertion not correct");
+			assertTrue(RM.consultRequestById(2).get().getTitre().equals("Bouger"),"Insertion not correct");
+			//System.out.println(RM.consultRequestById(3).get().getUser());
+			assertTrue(RM.consultRequestById(3).get().getUser().equals(u2.getFullName()),"Insertion not correct");
+			assertTrue(RM.consultRequestById(4).get().getBenevole().equals("Not assigned"),"Insertion not correct");
 			System.out.println("---------Database consult request trial-------------");
-			u1.myRequest(UC);
 			u2.myRequest(UC);
-			u3.myRequest(UC);
-			System.out.println("---------Database add motivation trial-------------");
-			u1.sendMotif(1, "ALED1", UC);
-			u1.sendMotif(2, "ALED2", UC);
-			u1.sendMotif(3, "ALED3", UC);
-			u3.sendMotif(4, "ALED4", UC);
 			u1.myRequest(UC);
-			u2.myRequest(UC);
 			u3.myRequest(UC);
 			System.out.println("---------Database add feedback trial-------------");
 			u1.sendFeedback(1, "BIEN", UC);
@@ -56,9 +54,16 @@ class User_Control_RequestTest {
 			u1.myRequest(UC);
 			u2.myRequest(UC);
 			u3.myRequest(UC);
+			assertTrue(RM.consultRequestById(1).get().getFeedback().equals("BIEN"),"Insertion not correct");
+			assertFalse(RM.consultRequestById(2).get().getFeedback().equals("moyen"),"Insertion not correct");
+			System.out.println(RM.consultRequestById(3).get().getFeedback());
+			System.out.println(RM.consultRequestById(4).get().getFeedback());
+			assertTrue(RM.consultRequestById(4).get().getFeedback().equals("TRESBIEN"),"Insertion not correct");
 			System.out.println("---------Database delete table trial-------");
 			db.deleteTable("DROP TABLE User");
+			db.deleteTable("DROP TABLE Request");
 			db.disconnect();
+		    System.out.println(""); 
 	    }catch(Exception e) {
 	    	e.getStackTrace();
 	    }

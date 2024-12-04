@@ -1,21 +1,20 @@
 package User_Manip;
 
-import request.*;
+
 
 public class User {
 	private String nom;
     private String prenom;
     private int age;
     private int identifiant;
-    public static int Nb_User=0;
+
     
     public User(String nom , String prenom, int age,User_Control user_control){
         this.nom=nom;
         this.prenom=prenom;
         this.age=age;
-        this.identifiant=Nb_User+1;
-        Nb_User ++;
         user_control.Insertion(this);
+        this.identifiant=user_control.getId(nom,prenom);
     }
 
     
@@ -46,10 +45,6 @@ public class User {
         this.age = age;
     }
 
-    public void setIdentifiant(int identifiant) {
-        this.identifiant = identifiant;
-    }
-
     public void setNom(String nom) {
         this.nom = nom;
     }
@@ -58,14 +53,9 @@ public class User {
         this.prenom = prenom;
     }
 
-    public static int getNb_User() {
-        return Nb_User;
-    }
-
     public int getIdentifiant() {
         return identifiant;
     }
-    
     
     public String toString() {
     	return "ID: " + identifiant + ", nom: " + nom +", prenom: "+prenom+ ", Age: " + age;
@@ -82,7 +72,7 @@ public class User {
     	UC.sendFeedback(requestID, feedback,getFullName());
     }
     
-    public void sendMotif(int requestID,String motif,User_Control UC) {
-    	UC.sendMotif(requestID, motif,getFullName());
-    }
+    //public void sendMotif(int requestID,String motif,User_Control UC) {
+    //	UC.sendMotif(requestID, motif,getFullName());
+    //}
 }

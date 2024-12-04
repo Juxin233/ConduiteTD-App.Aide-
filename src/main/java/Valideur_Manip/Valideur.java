@@ -9,21 +9,14 @@ public class Valideur {
 	private String prenom;
 	//pas besoin de l'age pour le valideur 
 	private int identifiant;
-	public static int Nb_Val=0;
 	
 	
 	
 	public Valideur(String nom , String prenom,Valideur_Control val_control){
-	
 		this.nom=nom;
-	
 		this.prenom=prenom;
-	
-		this.identifiant=Nb_Val+1;
-	
-		Nb_Val ++;
-	
 		val_control.Insertion(this);
+		identifiant= val_control.getId(nom, prenom);
 	
 	}
 	
@@ -38,17 +31,9 @@ public class Valideur {
 	public String getPrenom() {
 		return prenom;
 	}
-	
-	
-	
-	
-	public static int getNb_Val() {
-	
-		return Nb_Val;
-	
+	public String getFullName() {
+		return nom+" "+prenom;
 	}
-	
-	
 	
 	public int getIdentifiant() {
 	
