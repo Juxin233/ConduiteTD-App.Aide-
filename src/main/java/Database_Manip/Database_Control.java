@@ -25,9 +25,9 @@ public class Database_Control {
         this.connection = null; 
     }
     
+    //connecter au database 
     public void connect() throws SQLException{
     	String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database;
-
         try {
             connection = DriverManager.getConnection(jdbcUrl, username, password);
             System.out.println("Connexion_reussi!");
@@ -36,7 +36,7 @@ public class Database_Control {
             throw e;
         }
     }
-    
+    //deconnecter au database
     public void disconnect() {
     	if (this.connection != null) {
             try {
@@ -49,12 +49,15 @@ public class Database_Control {
         }
     }
     
+    
     public boolean is_Connected() {
     	if (this.connection!=null) {
     		return true;
     	}else return false;
     		
     }
+    
+    //creer des tables 
     public void createTable(String createTableSQL) {
         try {
             if(connection != null) {

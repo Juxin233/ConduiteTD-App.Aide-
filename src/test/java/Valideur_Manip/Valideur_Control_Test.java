@@ -2,11 +2,8 @@ package Valideur_Manip ;
 import Database_Manip.Database_Control ; 
 
 import java.sql.SQLException;
-import java.util.*;
 
 import org.junit.jupiter.api.Test;
-
-import Valideur_Manip.Valideur_Control; 
 
 class Valideur_Control_Test {
 	
@@ -31,8 +28,8 @@ class Valideur_Control_Test {
 		Valideur b1 = new Valideur("VAL1","val1",VAL); 
 		
 		VAL.printVal(b1); 	
-		
-		db.deleteTable("DROP TABLE Valideur");
+		VAL.deleteValideur(b1.getIdentifiant());
+		//db.deleteTable("DROP TABLE Valideur");
 		db.disconnect();
 	    System.out.println(""); 
 		}

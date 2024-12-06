@@ -1,8 +1,6 @@
 package Benevole_Manip ; 
 
 import Database_Manip.Database_Control ;
-import User_Manip.User;
-import User_Manip.User_Control;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,8 +9,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
-
-import Benevole_Manip.Benevole_Control; 
 
 class Benevole_Control_Test {
 	
@@ -30,7 +26,7 @@ class Benevole_Control_Test {
 			System.out.println("---------Database connexion trial-------");
 			Database_Control db =new Database_Control(host, port, database, username, password);
 			db.connect();
-			db.deleteTable("DROP TABLE Benevole");
+			//db.deleteTable("DROP TABLE Benevole");
 			System.out.println("---------Database create table trial-------");
 			Benevole_Control BC= new Benevole_Control(db);
 			System.out.println("---------Database add trial-------------");
@@ -41,24 +37,24 @@ class Benevole_Control_Test {
 			System.out.println("b2 id : "+b2.getIdentifiant());
 			Benevole b3=new Benevole("CC","cc",60,BC);
 			System.out.println("b3 id : "+b3.getIdentifiant());
-			assertTrue(b1.getIdentifiant()==1);
-			assertTrue(b11.getIdentifiant()==1);
-			assertTrue(b2.getIdentifiant()==2);
-			assertTrue(b3.getIdentifiant()==3);
+			assertFalse(b1.getIdentifiant()==0);
+			assertTrue(b11.getIdentifiant()==b1.getIdentifiant());
+			assertFalse(b2.getIdentifiant()==0);
+			assertFalse(b3.getIdentifiant()==0);
 			System.out.println("---------Database consult all the benevoles trial-------");
 			result=BC.getAllBenevoles();
 			BC.printAllBenevoles();
 			assertFalse(result==null,"Le resultat ne doit pas etre vide");
 			System.out.println("---------Database consult single benevole trial-------");
 			BC.printBen(b1);
-			BC.printBen(BC.consultUserById(1).get());
+			BC.printBen(BC.consultUserById(b1.getIdentifiant()).get());
 			BC.printBen(b2);
-			BC.printBen(BC.consultUserById(2).get());
+			BC.printBen(BC.consultUserById(b2.getIdentifiant()).get());
 			BC.printBen(b3);
-			BC.printBen(BC.consultUserById(3).get());
-			assertTrue(b1.getAge()==BC.consultUserById(1).get().getAge());
-			assertTrue(b2.getAge()==BC.consultUserById(2).get().getAge());
-			assertTrue(b2.getAge()==BC.consultUserById(2).get().getAge());
+			BC.printBen(BC.consultUserById(b3.getIdentifiant()).get());
+			assertTrue(b1.getAge()==BC.consultUserById(b1.getIdentifiant()).get().getAge());
+			assertTrue(b2.getAge()==BC.consultUserById(b2.getIdentifiant()).get().getAge());
+			assertTrue(b3.getAge()==BC.consultUserById(b3.getIdentifiant()).get().getAge());
 			System.out.println("-------------------------------------------------------------");
 			BC.printAllBenevoles();
 			System.out.println("---------Database update single benevole trial-------");
@@ -71,14 +67,16 @@ class Benevole_Control_Test {
 			result=BC.getAllBenevoles();
 			assertFalse(result==null,"Le resultat ne doit pas etre vide");
 			BC.printAllBenevoles();
-			assertTrue(53==BC.consultUserById(1).get().getAge(),"u1 Update non reussi");
-			assertTrue(BC.consultUserById(2).get().getNom().equals("BBB"),"u2 Update non reussi");
-			assertTrue(BC.consultUserById(3).get().getPrenom().equals("ccc"),"u3 Update non reussi");
-			System.out.println("---------Database delete table trial-------");
-			db.deleteTable("DROP TABLE Benevole");
+			assertTrue(53==BC.consultUserById(b1.getIdentifiant()).get().getAge(),"u1 Update non reussi");
+			assertTrue(BC.consultUserById(b2.getIdentifiant()).get().getNom().equals("BBB"),"u2 Update non reussi");
+			assertTrue(BC.consultUserById(b3.getIdentifiant()).get().getPrenom().equals("ccc"),"u3 Update non reussi");
+			System.out.println("---------Database delete trial-------");
+			BC.deleteBenevole(b1.getIdentifiant());
+			BC.deleteBenevole(b2.getIdentifiant());
+			BC.deleteBenevole(b3.getIdentifiant());
+			//db.deleteTable("DROP TABLE Benevole");
 			db.disconnect();
 		    System.out.println(""); 
-
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
 			

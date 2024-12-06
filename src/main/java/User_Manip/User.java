@@ -64,15 +64,13 @@ public class User {
     public void myRequest(User_Control UC) {
     	UC.myRequest(getFullName());
     }
-    public void sendRequest(String titre,User_Control UC) {
-    	UC.sendRequest(titre, getFullName() );
+    
+    public int sendRequest(String titre,User_Control UC) {
+    	return UC.sendRequest(titre, getFullName() );
     }
     
     public void sendFeedback(int requestID,String feedback,User_Control UC) {
     	UC.sendFeedback(requestID, feedback,getFullName());
     }
     
-    //public void sendMotif(int requestID,String motif,User_Control UC) {
-    //	UC.sendMotif(requestID, motif,getFullName());
-    //}
 }

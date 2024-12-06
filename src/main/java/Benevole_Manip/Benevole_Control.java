@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 import Database_Manip.Database_Control;
-import User_Manip.User;
 import request.RequestType;
 import request.Request;
 
@@ -15,48 +14,53 @@ public class Benevole_Control {
 
 	private Database_Control DB;
 
- 
-
 	public Benevole_Control(Database_Control db){
-
 		this.DB=db;
-
 		DB.createTable("CREATE TABLE IF NOT EXISTS Benevole ("
 			+ "id INT AUTO_INCREMENT PRIMARY KEY, "
-			+ "nom VARCHAR(50), "
-			+ "prenom VARCHAR(50), "
+			+ "nom VARCHAR(50) COLLATE utf8_general_ci, "
+			+ "prenom VARCHAR(50) COLLATE utf8_general_ci, "
 			+ "age INT,"
 			+ "UNIQUE (nom,prenom))");
 	 }
-
- 
-
+	public void checkInlist(Benevole ben) {
+		int id=getId(ben.getNom(),ben.getPrenom());
+        if (id==-1) {
+        	System.out.println("You are not in the list of volunteer, are you sure create a new account with name :"+ben.getFullName()+" ?");	     
+        }else {
+        	System.out.println("Welcome Back volunteer n° " + id +" "+ ben.getFullName() );
+        }
+	}
+	
+	//inserer un benevole dans le database s'il existe pas, sinon prendre le meme id
 	public void Insertion(Benevole ben) {
+	    String insertSQL = "INSERT INTO Benevole (nom, prenom, age) VALUES (?, ?, ?)";
+	    try (//Scanner sc = new Scanner(System.in);
+	         PreparedStatement stmt = DB.getConnection().prepareStatement(insertSQL)) {
 
-		/*String query= "INSERT INTO Benevole (nom, prenom, age) VALUES "+"("+"'"+ben.getNom() +"'" +" , " +"'"+ben.getPrenom()+"'"+" ,"+ String.valueOf(ben.getAge())+")";
-		DB.insertData(query);*/
-		String insertSQL = "INSERT INTO Benevole (nom, prenom, age) VALUES (?, ?, ?)";
-		 try (PreparedStatement stmt = DB.getConnection().prepareStatement(insertSQL)) {
-	            stmt.setString(1, ben.getNom());
-	            stmt.setString(2, ben.getPrenom());
-	            stmt.setInt(3, ben.getAge());	            
-	            int id=getId(ben.getNom(),ben.getPrenom());
-	            if (id==-1) {
-	            	stmt.executeUpdate();
-	            	id=getId(ben.getNom(),ben.getPrenom());
-	            	System.out.println("A new volunteer! Welcome, you are the "+id +"th volunteer");	     
-	            }else {
-	            	System.out.println("Welcome Back volunteer n° " + id +" "+ ben.getFullName() );
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Erreur Benevole insertion: " + e.getMessage());
+	        // Vérifier si le bénévole existe déjà
+	        int id = getId(ben.getNom(), ben.getPrenom());
+	        if (id == -1) {
+	                stmt.setString(1, ben.getNom());
+	                stmt.setString(2, ben.getPrenom());
+	                stmt.setInt(3, ben.getAge());
+	                stmt.executeUpdate();
+	                id = getId(ben.getNom(), ben.getPrenom());
+	                System.out.println("A new volunteer! Welcome, you are the " + id + "th volunteer.");
+	        } else {
+	            // Bénévole existant
+	            System.out.println("Welcome back, volunteer #" + id + ": " + ben.getFullName());
 	        }
+	    } catch (SQLException e) {
+	        System.out.println("Erreur Benevole insertion: " + e.getMessage());
+	    }
 	}
 		
 	public void printBen(Benevole ben) {
 	  System.out.println(ben.toString());
 	  }
 	 
+	//rechercher identifiant d'un benevole par son nom et prenom
 	public int getId(String nom,String prenom) {
 		String query = "SELECT id FROM Benevole WHERE nom= ? AND prenom=?";		
 		try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)){		
@@ -72,6 +76,8 @@ public class Benevole_Control {
 	    }
 		return -1;
 	 }
+	
+	//renvoyer une liste de touts les benevoles
 	public List<Benevole> getAllBenevoles() {
         String querySQL = "SELECT id, nom, prenom, age FROM Benevole";
         List<Benevole> benevoles = new ArrayList<>();
@@ -95,6 +101,7 @@ public class Benevole_Control {
 		  }
 	  }
 	
+	//consulter un benevole par son identifiant
 	public Optional<Benevole> consultUserById(int benevoleId) {
 	    String query = "SELECT * FROM Benevole WHERE id = ?";
 	    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
@@ -108,7 +115,8 @@ public class Benevole_Control {
 	    }
 	    return Optional.empty();
 	}
-	  
+	
+	//pour changer les informations d'un benevole
 	public void updateBenevole(Benevole benevole) {
 	        String updateSQL = "UPDATE Benevole SET nom = ?, prenom = ?, age = ? WHERE id = ?";
 	        try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
@@ -127,7 +135,7 @@ public class Benevole_Control {
 	        }
 	    }
 	  
-	
+	//pour consulter toutes les requetes existantes
 	public void consultRequest() {
 		String querySQL = "SELECT id,titre,etat,motif,feedback,user,benevole FROM Request";
         List<Request> requests = new ArrayList<>();
@@ -150,14 +158,17 @@ public class Benevole_Control {
 		  }
 	}
 	
-	
+	//accpeter une requete par son id 
 	public void acceptRequest(int id, String nom_benevole) {
 		 String query = "SELECT * FROM Request WHERE id = ?";
 		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
 		        stmt.setInt(1, id);
 		        ResultSet rs = stmt.executeQuery();
 		        if (rs.next()) {
-		            if(!"Not assigned".equals(rs.getString("benevole"))) {
+		        	if(!RequestType.VALID.equals(rs.getString("etat"))) {
+		            	throw new SQLException("This request hasn't been valiated by any validator!");
+		            }
+		        	else if(!"Not assigned".equals(rs.getString("benevole"))) {
 		            	throw new SQLException("This request has been already taken !!");
 		            }
 		        }
@@ -181,6 +192,7 @@ public class Benevole_Control {
 	        }
 	}
 	
+	//finir une requete par son id
 	public void finishRequest(int id,String nom_benevole) {
 		 String query = "SELECT * FROM Request WHERE id = ?";
 		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
@@ -210,6 +222,21 @@ public class Benevole_Control {
 	        }
 	}
 	
- 
+	//le controleur peut supprimer un benevole
+	public void deleteBenevole(int identifiant) {
+		String deleteSQL ="DELETE FROM Benevole WHERE id = ?";
+		try (PreparedStatement stmt=DB.getConnection().prepareStatement(deleteSQL)){
+			stmt.setInt(1, identifiant);
+			int rowsAffected = stmt.executeUpdate(); // Exécute la requête
+	        if (rowsAffected > 0) {
+	            System.out.println("Bénévole avec l'identifiant " + identifiant + " supprimé avec succès.");
+	        } else {
+	            System.out.println("Aucun bénévole trouvé avec l'identifiant " + identifiant + ".");
+	        }
+		}catch (SQLException e) {
+	        System.out.println(e.getMessage());
+	        return;
+	    } 
+	}
 
 }

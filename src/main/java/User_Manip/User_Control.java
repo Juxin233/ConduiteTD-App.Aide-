@@ -2,6 +2,7 @@ package User_Manip;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 import request.Request;
@@ -21,17 +22,15 @@ public class User_Control {
 	private void createUsersTable() {
 	        String createTableSQL = "CREATE TABLE IF NOT EXISTS User ("
 	                + "id INT AUTO_INCREMENT PRIMARY KEY, "
-	                + "nom VARCHAR(50), "
-	                + "prenom VARCHAR(50), "
+	                + "nom VARCHAR(50) COLLATE utf8_general_ci, "
+	                + "prenom VARCHAR(50) COLLATE utf8_general_ci, "
 	                + "age INT,"
 	                + "UNIQUE (nom,prenom))";
 	        DB.createTable(createTableSQL);
 	}
 	
-	
+	//inserer un user dans le database
 	public void Insertion(User user) {
-		//"INSERT INTO User (nom, prenom, age) VALUES ('AA', 'aa', 11)"
-		//String query= "INSERT INTO User (nom, prenom, age) VALUES "+" ("+"'"+user.getNom()+"'"+" , "+"'"+user.getPrenom()+"'"+" , "+String.valueOf(user.getAge())+")";
 		 String insertSQL = "INSERT INTO User (nom, prenom, age) VALUES (?, ?, ?)";
 		 try (PreparedStatement stmt = DB.getConnection().prepareStatement(insertSQL)) {
 	            stmt.setString(1, user.getNom());
@@ -50,26 +49,7 @@ public class User_Control {
 	        }
 	}
 	
-	
-	/*old version
-	 * 
-	 * public ResultSet CousultAll() {
-		ResultSet result=null;
-		try{
-			result=DB.consulteTable("SELECT id, nom, prenom, age FROM User");
-			while (result.next()) {
-		        int id = result.getInt("id");
-		        String nom = result.getString("nom");
-		        String prenom = result.getString("prenom");
-		        int age = result.getInt("age");
-		        System.out.println("ID: " + id + ", nom: " + nom +", prenom: "+prenom+ ", Age: " + age);
-		    }
-		}catch(SQLException e) {
-			System.out.println("Consultation non reussie: " + e.getMessage());
-		}
-		return result;
-	}*/
-	
+	//trouver un identifiant par son nom et prenom
 	public int getId(String nom,String prenom) {
 		String query = "SELECT id FROM User WHERE nom= ? AND prenom=?";
 		try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)){
@@ -86,8 +66,7 @@ public class User_Control {
 		return -1;
 	}
 	
-	
-	
+	//renvoyer tous les users
 	public List<User> getAllUsers() {
         String querySQL = "SELECT id, nom, prenom, age FROM User";
         List<User> users = new ArrayList<>();
@@ -105,17 +84,7 @@ public class User_Control {
         return users;
     }
 	
-	
-	/*old version
-	 * 
-	 * 
-	 * public ResultSet Consult_User_oneline(User user) throws SQLException{
-		String query="SELECT * FROM User WHERE ID="+ user.getIdentifiant();
-		ResultSet result =DB.consulteTable(query);;
-		if(!result.next()) throw new SQLException("Element pas trouve");
-		return result;
-	}*/
-
+	//renvoyer un seul user par son id
 	public Optional<User> consultUserById(int userId) {
 	    String query = "SELECT * FROM User WHERE id = ?";
 	    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
@@ -159,20 +128,32 @@ public class User_Control {
 		  System.out.println(user.toString());
 	  }
 	  
-	  public void sendRequest(String titre,String nom_user) {
-		  String insertSQL = "INSERT INTO Request (titre, user,etat) VALUES (?,?,?)";
-			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(insertSQL)) {
-		            stmt.setString(1, titre);
-		            stmt.setString(2, nom_user);
-		            stmt.setString(3, RequestType.WAITING);   
-		            stmt.executeUpdate();
-		            System.out.println("Request insertion reussi!");
-		        } catch (SQLException e) {
-		            System.out.println("Erreur Request insertion: " + e.getMessage());
+	  // un user peut demander en donnant une titre
+	  public int sendRequest(String titre,String nom_user) {
+		  String insertSQL = "INSERT INTO Request (titre, user, etat) VALUES (?, ?, ?)";
+		    int generatedId = -1; // Pour stocker l'ID généré
+		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
+		        stmt.setString(1, titre);
+		        stmt.setString(2, nom_user);
+		        stmt.setString(3, RequestType.WAITING);   
+		        stmt.executeUpdate();
+
+		        // Récupérer l'ID généré
+		        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		                generatedId = generatedKeys.getInt(1);
+		                System.out.println("Request insertion réussi avec ID : " + generatedId);
+		            } else {
+		                System.out.println("Aucun ID généré !");
+		            }
 		        }
+		    } catch (SQLException e) {
+		        System.out.println("Erreur Request insertion : " + e.getMessage());
+		    }
+		    return generatedId; // Retourner l'ID généré
 	  }
 	  
-	  
+	  //un user peut envoyer un feedback apres que la requete est finie
 	  public void sendFeedback(int id, String feedback,String nom_user) {
 		  String query = "SELECT * FROM Request WHERE id = ?";
 		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
@@ -180,13 +161,18 @@ public class User_Control {
 		        ResultSet rs = stmt.executeQuery();
 		        if (rs.next()) {
 		            if(!nom_user.equals(rs.getString("user"))) {
-		            	throw new SQLException("You are not the sender of this request !!");
+		            	System.out.println("You are not the sender of this request !!");
+		            	return;
+		            }else if(!(RequestType.FINISHED).equals(rs.getString("etat"))) {
+		            	System.out.println("Ce requete n'est pas encore finie!");
+		            	return;
 		            };
 		        }
 		    } catch (SQLException e) {
 		        System.out.println(e.getMessage());
 		        return;
 		    }
+		    
 		    String updateSQL = "UPDATE Request SET feedback = ? WHERE id = ?";
 			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
 		            stmt.setString(1, feedback);
@@ -202,46 +188,17 @@ public class User_Control {
 		        }
 		}
 	  
-	  
-	  /*public void sendMotif(int id, String motif,String nom_user) {
-		  //Verify if user is the sender of the request
-		  String query = "SELECT * FROM Request WHERE id = ?";
-		    try (PreparedStatement stmt = DB.getConnection().prepareStatement(query)) {
-		        stmt.setInt(1, id);
-		        ResultSet rs = stmt.executeQuery();
-		        if (rs.next()) {
-		            if(!nom_user.equals(rs.getString("user"))) {
-		            	throw new SQLException("You are not the sender of this request !!");
-		            };
-		        }
-		    } catch (SQLException e) {
-		        System.out.println(e.getMessage());
-		        return;
-		    }
-		  //Update the request
-		    String updateSQL = "UPDATE Request SET motif = ? WHERE id = ?";
-			 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
-		            stmt.setString(1, motif);
-		            stmt.setInt(2, id);
-		            int rowsAffected = stmt.executeUpdate();
-		            if (rowsAffected > 0) {
-		                System.out.println("Request mtj reussi!");
-		            } else {
-		                System.out.println("Element non trouve.");
-		            }
-		        } catch (SQLException e) {
-		            System.out.println("Update non reussi: " + e.getMessage());
-		        }
-	  }*/
-	  
+	  //chaque user peut voir ses propre demandes
 	  public void myRequest(String nom_user) {
 		  String querySQL = "SELECT * FROM Request WHERE user = ? ";
 	        List<Request> requests = new ArrayList<>();
 	        try (PreparedStatement stmt = DB.getConnection().prepareStatement(querySQL)) {
 	            stmt.setString(1, nom_user);
 	            ResultSet resultSet = stmt.executeQuery();
-	        	while (resultSet.next()) {
-	                int id = resultSet.getInt("id");
+	            boolean hasResults = false;
+	            while (resultSet.next()) {
+	                hasResults= true;
+	            	int id = resultSet.getInt("id");
 	                String titre = resultSet.getString("titre");
 	                String etat = resultSet.getString("etat");
 	                String motif = resultSet.getString("motif");
@@ -249,6 +206,9 @@ public class User_Control {
 	                String user = resultSet.getString("user");
 	                String benevole = resultSet.getString("benevole");
 	                requests.add(new Request(id,titre,etat, motif, feedback, user,benevole)); 
+            	}
+	            if (!hasResults) {
+	            	System.out.println("Vous n'avez demandé aucune demande");
 	            }
 	        } catch (SQLException e) {
 	            System.out.println("Not Request: " + e.getMessage());
@@ -257,6 +217,23 @@ public class User_Control {
 				  System.out.println(request.toString());
 			}
 	  }
+	  
+	  //le controleur peut jeter un user
+	  public void deleteUser(int identifiant) {
+			String deleteSQL ="DELETE FROM User WHERE id = ?";
+			try (PreparedStatement stmt=DB.getConnection().prepareStatement(deleteSQL)){
+				stmt.setInt(1, identifiant);
+				int rowsAffected = stmt.executeUpdate(); // Exécute la requête
+		        if (rowsAffected > 0) {
+		            System.out.println("User avec l'identifiant " + identifiant + " supprimé avec succès.");
+		        } else {
+		            System.out.println("Aucun user trouvé avec l'identifiant " + identifiant + ".");
+		        }
+			}catch (SQLException e) {
+		        System.out.println(e.getMessage());
+		        return;
+		    } 
+		}
 }
 
 
