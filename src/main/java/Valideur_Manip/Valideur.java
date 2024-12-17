@@ -47,11 +47,11 @@ public class Valideur {
 		return V.consultById(id);
 	}
 	
-	public void Valid_Request(int id, Valideur_Control V){
+	public void validRequest(int id, Valideur_Control V){
 		V.validRequest(id); 
 	}
 	
-	public void Refuse_Request(int id,String motif, Valideur_Control V){
+	public void refuseRequest(int id,String motif, Valideur_Control V){
 		V.Motif(id, motif,getPrenom()+getNom());
 		V.invalidRequest(id); 
 	}

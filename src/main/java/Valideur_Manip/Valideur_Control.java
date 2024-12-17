@@ -77,7 +77,7 @@ public class Valideur_Control {
 	           stmt.setInt(2, id);  
 	           int rowsAffected = stmt.executeUpdate();
 	           if (rowsAffected > 0) {
-	               System.out.println("Request mtj reussi!");
+	               System.out.println("Request valider reussi!");
 	           } else {
 	               System.out.println("Element non trouve.");
 	           }
@@ -95,7 +95,7 @@ public class Valideur_Control {
 	          stmt.setInt(2, id);  
 	          int rowsAffected = stmt.executeUpdate();
 	          if (rowsAffected > 0) {
-	              System.out.println("Request mtj reussi!");
+	              System.out.println("Request refuser reussi!");
 	          } else {
 	              System.out.println("Element non trouve.");
 	          }

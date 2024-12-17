@@ -43,6 +43,10 @@ class User_Control_RequestTest {
 			u1.myRequest(UC);
 			u3.myRequest(UC);
 			System.out.println("---------Database add feedback trial-------------");
+			RM.finishRequest(r1);
+			RM.finishRequest(r2);
+			RM.finishRequest(r3);
+			RM.finishRequest(r4);
 			u1.sendFeedback(r1, "BIEN", UC);
 			u1.sendFeedback(r2, "MOYEN", UC);
 			u1.sendFeedback(r3, "TRESBIEN", UC);

@@ -165,11 +165,11 @@ public class Benevole_Control {
 		        stmt.setInt(1, id);
 		        ResultSet rs = stmt.executeQuery();
 		        if (rs.next()) {
-		        	if(!RequestType.VALID.equals(rs.getString("etat"))) {
-		            	throw new SQLException("This request hasn't been valiated by any validator!");
+		        	if(RequestType.IN_PROGRESS.equals(rs.getString("etat")) && !"Not assigned".equals(rs.getString("benevole"))) {
+		        		throw new SQLException("This request has been already taken !!");
 		            }
-		        	else if(!"Not assigned".equals(rs.getString("benevole"))) {
-		            	throw new SQLException("This request has been already taken !!");
+		        	else if(!RequestType.VALID.equals(rs.getString("etat"))) {
+		        		throw new SQLException("This request hasn't been valiated by any validator!");
 		            }
 		        }
 		    } catch (SQLException e) {

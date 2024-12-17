@@ -113,7 +113,7 @@ public class RequestManager {
 		            stmt.setInt(2, id);
 		            int rowsAffected = stmt.executeUpdate();
 		            if (rowsAffected > 0) {
-		                System.out.println("Request mtj reussi!");
+		                System.out.println("Request valide reussi!");
 		            } else {
 		                System.out.println("Element non trouve.");
 		            }
@@ -127,7 +127,7 @@ public class RequestManager {
 		            stmt.setInt(2, id);
 		            int rowsAffected = stmt.executeUpdate();
 		            if (rowsAffected > 0) {
-		                System.out.println("Request mtj reussi!");
+		                System.out.println("Request refuse reussi!");
 		            } else {
 		                System.out.println("Element non trouve.");
 		            }
@@ -135,6 +135,22 @@ public class RequestManager {
 		            System.out.println("Update non reussi: " + e.getMessage());
 		        }
 		}
+	}
+	
+	public void finishRequest(int id) {
+		String updateSQL = "UPDATE Request SET etat = ? WHERE id = ?";
+		 try (PreparedStatement stmt = DB.getConnection().prepareStatement(updateSQL)) {
+	            stmt.setString(1, RequestType.FINISHED);
+	            stmt.setInt(2, id);
+	            int rowsAffected = stmt.executeUpdate();
+	            if (rowsAffected > 0) {
+	                System.out.println("Request finish reussi!");
+	            } else {
+	                System.out.println("Element non trouve.");
+	            }
+	        } catch (SQLException e) {
+	            System.out.println("Update non reussi: " + e.getMessage());
+	        }
 	}
 	
 	public void sendFeedback(int id, String feedback) {

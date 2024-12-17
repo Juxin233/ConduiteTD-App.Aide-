@@ -137,7 +137,7 @@ public class Main {
 							                sc.next();
 							            }
 							        }  
-									ben.Accept_Request(id1, BEN);
+									ben.acceptRequest(id1, BEN);
 								}else if(choix1.equalsIgnoreCase("CONSULTER")) {
 									ben.consultAllRequest(BEN);
 								}
@@ -229,13 +229,13 @@ public class Main {
 											choix3 = sc.next(); 
 										}
 										if (choix3.equalsIgnoreCase("oui")) {
-							    			v.Valid_Request(id3, VAL); 
+							    			v.validRequest(id3, VAL); 
 										}
 										else if (choix3.equalsIgnoreCase("non")) {
 											sc.nextLine(); 
 											System.out.println("Entrer Motif ");  
 							    			String m = sc.nextLine(); 
-											v.Refuse_Request(id3,m, VAL); 
+											v.refuseRequest(id3,m, VAL); 
 										}
 									}
 								}else {

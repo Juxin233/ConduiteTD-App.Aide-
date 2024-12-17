@@ -62,7 +62,7 @@ public class Benevole {
 		this.nom = nom;
 	}
 	 
-	public void Accept_Request(int requestID,Benevole_Control BC){
+	public void acceptRequest(int requestID,Benevole_Control BC){
 	 //accept a request 
 		BC.acceptRequest(requestID, getFullName());
 	}

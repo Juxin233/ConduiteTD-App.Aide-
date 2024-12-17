@@ -41,7 +41,6 @@ class RequestManagerTest {
 	    	RM.printRequest(RM.consultRequestById(r2).get());
 	    	assertTrue(RM.consultRequestById(r1).get().getEtat().equals(RequestType.VALID));
 	    	assertTrue(RM.consultRequestById(r2).get().getEtat().equals(RequestType.INVALID));
-	    	System.out.println("---------Database consult all the requests trial-------");
 	    	System.out.println("---------Database delete table trial-------");
 			RM.deleteRequest(r1);
 			RM.deleteRequest(r2);

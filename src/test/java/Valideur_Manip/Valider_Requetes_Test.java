@@ -39,13 +39,13 @@ class Valider_Requetes_Test {
 	    	int r2=R.Insertion("Faire des courses","Bob"); 
 			assertTrue(R.consultRequestById(r1).get().getUser().equals("Alice"));
 			assertTrue(R.consultRequestById(r2).get().getTitre().equals("Faire des courses"));
-	    	b1.Valid_Request(r1, VAL); //Valider requete 1
-	    	b1.Refuse_Request(r2,"non valide",VAL); //Refuser requete 2
+	    	b1.validRequest(r1, VAL); //Valider requete 1
+	    	b1.refuseRequest(r2,"non valide",VAL); //Refuser requete 2
 	    	assertTrue(R.consultRequestById(r1).get().getEtat().equals(RequestType.VALID));
 			assertTrue(R.consultRequestById(r2).get().getEtat().equals(RequestType.INVALID));
 	    	R.printAllRequests();
 	    	VAL.deleteValideur(b1.getIdentifiant());
-	    	VAL.deleteValideur(b11.getIdentifiant());
+	    	//VAL.deleteValideur(b11.getIdentifiant());
 	    	R.deleteRequest(r1);
 	    	R.deleteRequest(r2);
 			//db.deleteTable("DROP TABLE Valideur");
