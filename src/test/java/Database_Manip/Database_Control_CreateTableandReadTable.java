@@ -3,6 +3,8 @@ package Database_Manip;
 
 import org.junit.jupiter.api.Test;
 
+import databaseManip.DatabaseControl;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +28,7 @@ class Database_Control_CreateTableandReadTable {
 		try {
 		    System.out.println("**Test Database Control Create Table and Read Table Test**"); 
 
-			Database_Control db =new Database_Control("srv-bdens.insa-toulouse.fr", 3306, "projet_gei_024", "projet_gei_024", "Zai6Xoo7");
+			DatabaseControl db =new DatabaseControl("srv-bdens.insa-toulouse.fr", 3306, "projet_gei_024", "projet_gei_024", "Zai6Xoo7");
 			db.connect();
 			
 			db.createTable(createTableSQL);

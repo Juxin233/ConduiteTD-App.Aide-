@@ -1,4 +1,4 @@
-package Valideur_Manip ;
+package valideurManip ;
 
 public class Valideur {
 
@@ -8,7 +8,7 @@ public class Valideur {
 	
 	
 	
-	public Valideur(String nom , String prenom,Valideur_Control val_control){
+	public Valideur(String nom , String prenom,ValideurControl val_control){
 		this.nom=nom;
 		this.prenom=prenom;
 		val_control.Insertion(this);
@@ -39,19 +39,19 @@ public class Valideur {
 		this.prenom = prenom;
 	}
 	
-	public void consultRequest(Valideur_Control V) {
+	public void consultRequest(ValideurControl V) {
 		V.consultRequest();
 	}
 	 
-	public boolean consultRequestById(int id, Valideur_Control V) {
+	public boolean consultRequestById(int id, ValideurControl V) {
 		return V.consultById(id);
 	}
 	
-	public void validRequest(int id, Valideur_Control V){
+	public void validRequest(int id, ValideurControl V){
 		V.validRequest(id); 
 	}
 	
-	public void refuseRequest(int id,String motif, Valideur_Control V){
+	public void refuseRequest(int id,String motif, ValideurControl V){
 		V.Motif(id, motif,getPrenom()+getNom());
 		V.invalidRequest(id); 
 	}

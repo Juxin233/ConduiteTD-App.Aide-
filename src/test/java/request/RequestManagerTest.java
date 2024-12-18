@@ -1,11 +1,11 @@
 package request;
-import Database_Manip.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
+
+import databaseManip.*;
 
 class RequestManagerTest {
 	
@@ -20,7 +20,7 @@ class RequestManagerTest {
 		    System.out.println("**Test Request Control**"); 
 
 	    	System.out.println("---------Database connexion trial-------");
-	    	Database_Control db =new Database_Control(host, port, database, username, password);
+	    	DatabaseControl db =new DatabaseControl(host, port, database, username, password);
 	    	db.connect();   	
 	    	System.out.println("---------Database create table trial-------");
 	    	RequestManager RM=new RequestManager(db);

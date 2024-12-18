@@ -1,4 +1,4 @@
-package User_Manip;
+package userManip;
 
 
 
@@ -9,7 +9,7 @@ public class User {
     private int identifiant;
 
     
-    public User(String nom , String prenom, int age,User_Control user_control){
+    public User(String nom , String prenom, int age,UserControl user_control){
         this.nom=nom;
         this.prenom=prenom;
         this.age=age;
@@ -61,15 +61,15 @@ public class User {
     	return "ID: " + identifiant + ", nom: " + nom +", prenom: "+prenom+ ", Age: " + age;
     }
     
-    public void myRequest(User_Control UC) {
+    public void myRequest(UserControl UC) {
     	UC.myRequest(getFullName());
     }
     
-    public int sendRequest(String titre,User_Control UC) {
+    public int sendRequest(String titre,UserControl UC) {
     	return UC.sendRequest(titre, getFullName() );
     }
     
-    public void sendFeedback(int requestID,String feedback,User_Control UC) {
+    public void sendFeedback(int requestID,String feedback,UserControl UC) {
     	UC.sendFeedback(requestID, feedback,getFullName());
     }
     

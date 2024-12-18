@@ -1,4 +1,4 @@
-package Benevole_Manip; 
+package benevoleManip; 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Database_Manip.Database_Control;
+import databaseManip.DatabaseControl;
 import request.RequestType;
 import request.Request;
 
-public class Benevole_Control {
+public class BenevoleControl {
 
-	private Database_Control DB;
+	private DatabaseControl DB;
 
-	public Benevole_Control(Database_Control db){
+	public BenevoleControl(DatabaseControl db){
 		this.DB=db;
 		DB.createTable("CREATE TABLE IF NOT EXISTS Benevole ("
 			+ "id INT AUTO_INCREMENT PRIMARY KEY, "

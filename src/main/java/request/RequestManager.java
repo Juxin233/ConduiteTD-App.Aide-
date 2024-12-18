@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Database_Manip.*;
+import databaseManip.*;
 
 public class RequestManager {
-	private Database_Control DB;
+	private DatabaseControl DB;
 	
 	
-	public RequestManager(Database_Control DB) {
+	public RequestManager(DatabaseControl DB) {
 		this.DB=DB;
 		createRequestsTable();
 	}

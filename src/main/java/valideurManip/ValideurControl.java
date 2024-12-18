@@ -1,22 +1,22 @@
-package Valideur_Manip; 
+package valideurManip; 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Database_Manip.Database_Control;
+import databaseManip.DatabaseControl;
 import request.Request;
 import request.RequestType; 
 
 
-public class Valideur_Control {
+public class ValideurControl {
 
-	 private Database_Control DB;
+	 private DatabaseControl DB;
 
 	 
 	
-	 public Valideur_Control(Database_Control db){
+	 public ValideurControl(DatabaseControl db){
 	
 		 this.DB=db;
 		

@@ -1,4 +1,4 @@
-package Database_Manip;
+package databaseManip;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class Database_Control {
+public class DatabaseControl {
 	private String host;
     private int port;
     private String database;
@@ -16,7 +16,7 @@ public class Database_Control {
     private Connection connection;
 
     
-    public Database_Control(String host, int port, String database, String username, String password) {
+    public DatabaseControl(String host, int port, String database, String username, String password) {
         this.host = host;
         this.port = port;
         this.database = database;

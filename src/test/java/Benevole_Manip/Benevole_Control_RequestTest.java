@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import Database_Manip.Database_Control;
-import User_Manip.User;
-import User_Manip.User_Control;
+import benevoleManip.Benevole;
+import benevoleManip.BenevoleControl;
+import databaseManip.DatabaseControl;
 import request.RequestManager;
+import userManip.User;
+import userManip.UserControl;
 
 class Benevole_Control_RequestTest {
 
@@ -21,12 +23,12 @@ class Benevole_Control_RequestTest {
 	    System.out.println("**Test Benevole Control Request**"); 
 	    try {
 	    	System.out.println("---------Database connexion trial-------");
-			Database_Control db =new Database_Control(host, port, database, username, password);
+			DatabaseControl db =new DatabaseControl(host, port, database, username, password);
 			db.connect();
 			System.out.println("---------Database create table trial-------");
-			User_Control UC= new User_Control(db);
+			UserControl UC= new UserControl(db);
 			RequestManager RM=new RequestManager(db);
-			Benevole_Control BC=new Benevole_Control(db);
+			BenevoleControl BC=new BenevoleControl(db);
 			System.out.println("---------Database add trial-------------");
 			User u1=new User("AA","aa",52,UC);
 			User u2=new User("BB","bb",58,UC);

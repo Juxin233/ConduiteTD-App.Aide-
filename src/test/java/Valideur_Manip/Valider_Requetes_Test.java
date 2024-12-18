@@ -1,13 +1,14 @@
 package Valideur_Manip ; 
-import Database_Manip.Database_Control ;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
 
-import request.*; 
+import databaseManip.DatabaseControl;
+import request.*;
+import valideurManip.Valideur;
+import valideurManip.ValideurControl; 
 
 class Valider_Requetes_Test {
 	
@@ -24,10 +25,10 @@ class Valider_Requetes_Test {
 		    System.out.println("**Test Valideur Control Requestes**"); 
 	
 		    //connection 
-		    Database_Control db =new Database_Control(host, port, database, username, password);
+		    DatabaseControl db =new DatabaseControl(host, port, database, username, password);
 			db.connect();
 			//creation table Valideur
-			Valideur_Control VAL = new Valideur_Control(db) ;
+			ValideurControl VAL = new ValideurControl(db) ;
 			//creation d'un benevole 
 			Valideur b1 = new Valideur("VAL1","val1",VAL); 
 			Valideur b11 = new Valideur("VAL1","val1",VAL); 

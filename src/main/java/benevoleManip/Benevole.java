@@ -1,4 +1,4 @@
-package Benevole_Manip ;
+package benevoleManip ;
 public class Benevole {
 	
 	private String nom;
@@ -6,7 +6,7 @@ public class Benevole {
 	private int age;
 	private int identifiant;
 	
-	public Benevole(String nom , String prenom, int age,Benevole_Control ben_control){
+	public Benevole(String nom , String prenom, int age,BenevoleControl ben_control){
 		this.nom=nom;
 		this.prenom=prenom;
 		this.age=age;
@@ -53,7 +53,7 @@ public class Benevole {
     	return "ID: " + identifiant + ", nom: " + getNom() +", prenom: "+getPrenom()+ ", Age: " + getAge();
     }
 	
-	public void consultAllRequest(Benevole_Control BC) {
+	public void consultAllRequest(BenevoleControl BC) {
 		//les bénévoles peuvent conculter toutes les demandes
 		BC.consultRequest();
 	}
@@ -62,12 +62,12 @@ public class Benevole {
 		this.nom = nom;
 	}
 	 
-	public void acceptRequest(int requestID,Benevole_Control BC){
+	public void acceptRequest(int requestID,BenevoleControl BC){
 	 //accept a request 
 		BC.acceptRequest(requestID, getFullName());
 	}
 	
-	public void finishRequest(int id,Benevole_Control BC) {
+	public void finishRequest(int id,BenevoleControl BC) {
 		BC.finishRequest(id,getFullName());
 	}
 

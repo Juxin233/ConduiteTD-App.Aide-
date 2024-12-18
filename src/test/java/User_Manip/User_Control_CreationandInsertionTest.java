@@ -1,11 +1,14 @@
 package User_Manip;
-import Database_Manip.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
+
+import databaseManip.*;
+import userManip.User;
+import userManip.UserControl;
 
 class User_Control_CreationandInsertionTest {
 
@@ -20,11 +23,11 @@ class User_Control_CreationandInsertionTest {
 		try {
 		    System.out.println("**Test User Control Creation and Insertion**"); 
 			System.out.println("---------Database connexion trial-------");
-			Database_Control db =new Database_Control(host, port, database, username, password);
+			DatabaseControl db =new DatabaseControl(host, port, database, username, password);
 			db.connect();
 			System.out.println("---------Database create table trial-------");
 			//db.deleteTable("DROP TABLE User");
-			User_Control UC= new User_Control(db);
+			UserControl UC= new UserControl(db);
 			System.out.println("---------Database add trial-------------");
 			User u1=new User("AA","aa",52,UC);
 			User u11=new User("aa","AA",52,UC);

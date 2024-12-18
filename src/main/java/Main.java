@@ -1,10 +1,11 @@
 import java.sql.SQLException;
 import java.util.Scanner;
-import Benevole_Manip.* ;
-import Database_Manip.Database_Control;
-import User_Manip.* ; 
-import Valideur_Manip.* ; 
-import request.*; 
+
+import benevoleManip.*;
+import databaseManip.DatabaseControl;
+import request.*;
+import userManip.*;
+import valideurManip.*; 
 
 
 public class Main {
@@ -20,13 +21,13 @@ public class Main {
 		    String username="projet_gei_024";
 		    String password="Zai6Xoo7";
 		    
-		    Database_Control db =new Database_Control(host, port, database, username, password);
+		    DatabaseControl db =new DatabaseControl(host, port, database, username, password);
 			db.connect();
 			
 			//creation des tables 
-			Benevole_Control BEN=null;
-			User_Control US=null;
-			Valideur_Control VAL=null; 
+			BenevoleControl BEN=null;
+			UserControl US=null;
+			ValideurControl VAL=null; 
 			RequestManager RM=new RequestManager(db);
 			//initialisation des utilisateurs 
 			Benevole ben=null;
@@ -52,7 +53,7 @@ public class Main {
 					System.out.println("Vous avez saisi : " + str);
 	
 					if (str.equalsIgnoreCase( "BENEVOLE")) {
-						BEN = new Benevole_Control(db) ;
+						BEN = new BenevoleControl(db) ;
 						System.out.println("Entrez Nom ") ; 
 						Nom = sc.next();
 						System.out.println("Entrez Prénom ") ; 
@@ -75,7 +76,7 @@ public class Main {
 					}
 					
 					else if  (str.equalsIgnoreCase( "UTILISATEUR")) {
-						US =new User_Control(db); 
+						US =new UserControl(db); 
 						System.out.println("Entrez Nom ") ; 
 						Nom = sc.next(); 
 						System.out.println("Entrez Prénom ") ; 
@@ -98,7 +99,7 @@ public class Main {
 					}
 					
 					else if (str.equalsIgnoreCase("VALIDATEUR")) {
-						VAL = new Valideur_Control(db); 
+						VAL = new ValideurControl(db); 
 						System.out.println("Entrez Nom ") ; 
 						Nom = sc.next(); 
 						System.out.println("Entrez Prénom ") ; 

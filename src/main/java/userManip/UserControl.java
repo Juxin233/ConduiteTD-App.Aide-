@@ -1,19 +1,18 @@
-package User_Manip;
+package userManip;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
+import databaseManip.*;
 import request.Request;
 import request.RequestType;
 
-import Database_Manip.*;
-
-public class User_Control {
-	private Database_Control DB;
+public class UserControl {
+	private DatabaseControl DB;
 	
-	public User_Control(Database_Control db){
+	public UserControl(DatabaseControl db){
 		this.DB=db;
 		createUsersTable();
 		

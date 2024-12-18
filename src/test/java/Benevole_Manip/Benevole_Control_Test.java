@@ -1,6 +1,8 @@
 package Benevole_Manip ; 
 
-import Database_Manip.Database_Control ;
+import benevoleManip.Benevole;
+import benevoleManip.BenevoleControl;
+import databaseManip.DatabaseControl;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,11 +26,11 @@ class Benevole_Control_Test {
 		try {
 		    System.out.println("**Test Benevole Control Creation and Insertion**"); 
 			System.out.println("---------Database connexion trial-------");
-			Database_Control db =new Database_Control(host, port, database, username, password);
+			DatabaseControl db =new DatabaseControl(host, port, database, username, password);
 			db.connect();
 			//db.deleteTable("DROP TABLE Benevole");
 			System.out.println("---------Database create table trial-------");
-			Benevole_Control BC= new Benevole_Control(db);
+			BenevoleControl BC= new BenevoleControl(db);
 			System.out.println("---------Database add trial-------------");
 			Benevole b1=new Benevole("AA","aa",52,BC);
 			Benevole b11=new Benevole("AA","aa",52,BC);

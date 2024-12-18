@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import Database_Manip.Database_Control;
+import databaseManip.DatabaseControl;
 import request.*;
+import userManip.User;
+import userManip.UserControl;
 class User_Control_RequestTest {
 
 	@Test
@@ -18,12 +20,12 @@ class User_Control_RequestTest {
 	    try {
 		    System.out.println("**Test User Control Request**"); 
 	    	System.out.println("---------Database connexion trial-------");
-			Database_Control db =new Database_Control(host, port, database, username, password);
+			DatabaseControl db =new DatabaseControl(host, port, database, username, password);
 			db.connect();
 			System.out.println("---------Database create table trial-------");
 			//db.deleteTable("DROP TABLE User");
 			//db.deleteTable("DROP TABLE Request");
-			User_Control UC= new User_Control(db);
+			UserControl UC= new UserControl(db);
 			RequestManager RM=new RequestManager(db);
 			System.out.println("---------Database add trial-------------");
 			User u1=new User("AA","aa",52,UC);
